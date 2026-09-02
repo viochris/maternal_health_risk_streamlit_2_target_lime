@@ -262,11 +262,11 @@ def explain(df_testing: pd.DataFrame, best_model=best_model, X_train_processed: 
             data_row=status_data_1d,
             predict_fn=ml_model.predict_proba,
             num_features=10,
-            top_labels=len(target_labels) if len(target_labels) > 2 else 1
+            labels=(1,)
         )
 
         # Matplotlib figure object from the LIME explanation
-        fig = explanation.as_pyplot_figure(label=1)
+        fig = explanation.as_pyplot_figure()
         fig.suptitle("LIME Local Explanation", fontsize=14, fontweight="bold", y=1.05)
 
         # Primary axes object of the figure
@@ -284,7 +284,7 @@ def explain(df_testing: pd.DataFrame, best_model=best_model, X_train_processed: 
         # Extract explanation formats for UI rendering (HTML, static plot, and raw weights)
         html_data = explanation.as_html()
         explanation_figure = fig
-        feature_weights = explanation.as_list(label=1)
+        feature_weights = explanation.as_list()
         
         return html_data, explanation_figure, feature_weights
 

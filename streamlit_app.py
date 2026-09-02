@@ -174,13 +174,25 @@ if submitted:
             low_risk_score_percentage = (low_risk_score * 100).round(2)
             elevated_risk_score_percentage = (elevated_risk_score * 100).round(2)
 
-            # Display the main results in a modern, customized HTML card (Medical Cyan Theme)
+            # Determine dynamic styling and UI elements based on the predicted risk level
+            if prediction.lower() == "elevated risk":
+                accent_color = "#FF4B4B"  # Danger Red
+                pred_text_color = "#FF7675"
+                alert_icon = "⚠️"
+                alert_title = "Attention Required!"
+            else:
+                accent_color = "#00C9FF"  # Medical Cyan
+                pred_text_color = "#92FE9D"  # Safe Green
+                alert_icon = "🎉"
+                alert_title = "Analysis Complete!"
+
+            # Display the main results in a modern, customized HTML card with dynamic theming
             st.markdown(
                 f"""
-                <div style='background-color: #1E1E1E; padding: 25px; border-radius: 12px; border-left: 6px solid #00C9FF; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: 20px;'>
-                    <h3 style='color: #00C9FF; margin-top: 0; font-family: sans-serif;'>🎉 Analysis Complete!</h3>
+                <div style='background-color: #1E1E1E; padding: 25px; border-radius: 12px; border-left: 6px solid {accent_color}; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: 20px;'>
+                    <h3 style='color: {accent_color}; margin-top: 0; font-family: sans-serif;'>{alert_icon} {alert_title}</h3>
                     <p style='font-size: 16px; color: #E0E0E0; margin-bottom: 5px; font-family: sans-serif;'>Predicted Risk Level:</p>
-                    <p style='font-size: 32px; font-weight: bold; color: #92FE9D; margin-top: 0; margin-bottom: 15px; font-family: monospace; text-transform: uppercase;'>
+                    <p style='font-size: 32px; font-weight: bold; color: {pred_text_color}; margin-top: 0; margin-bottom: 15px; font-family: monospace; text-transform: uppercase;'>
                         {prediction}
                     </p>
                     <hr style='border-color: #333333;'>
@@ -224,9 +236,9 @@ if submitted:
 
             # Execute the local XAI function
             html_data, explanation_figure, feature_weights = explain(df_testing_lime)
-
-            if not html_data:
-                st.error("🚨 **[EXPLANATION ERROR]** The model failed to generate a LIME HTML explanation.")
+            
+            if not html_data or not explanation_figure or not feature_weights:
+                st.error("🚨 **[EXPLANATION ERROR]** The model failed to generate the required LIME explanation components.")
                 st.stop()
 
             # Wrap the raw HTML inside a premium custom container using inline CSS

@@ -71,7 +71,11 @@ The model powering this app is an **AdaBoost Classifier** (wrapped in a preproce
 
 ### 3. Local Explainability (LIME XAI Plot)
 ![LIME Explanation](assets/lime_explanation.png)
-*Feature contribution plot showing which specific clinical metrics pushed the prediction toward or away from Elevated Risk.*
+*LIME bar chart showing which specific clinical metrics push the probability toward or away from Elevated Risk (label 1), regardless of the actual prediction.*
+
+### 4. Feature Impact Weights
+![Feature Impact Weights](assets/feature_impact_weights.png)
+*Plain-text breakdown of each feature's weight toward the Elevated Risk class, listed right below the LIME chart in the app.*
 
 ### 🔗 Live Demo
 Try the deployed application here: **[maternal-health-risk-2-target-lime.streamlit.app](https://maternal-health-risk-2-target-lime.streamlit.app/)**
@@ -82,6 +86,8 @@ Try the deployed application here: **[maternal-health-risk-2-target-lime.streaml
 
 ### 🏗️ Engineering Overview
 The application follows a **monolithic, in-process pattern**: `streamlit_app.py` handles the UI/form layer, while `function.py` owns all backend logic (model loading, preprocessing, inference, and LIME explanation). Heavy artifacts (`best_model_final.joblib`, `lime_training_data.npy`) are loaded once at startup using Streamlit's `@st.cache_resource` decorator, avoiding redundant disk reads on every user interaction. Both prediction and explanation run entirely in memory — there is no network round-trip involved.
+
+> **Note:** the LIME explanation is always generated with respect to the **`elevated risk` class (label 1)**, regardless of which class the model actually predicts. This means the chart and feature weights always describe which vitals push the probability *toward or away from Elevated Risk*, even on a submission the model classifies as Low Risk.
 
 ### 🔄 End-to-End System Flowchart
 

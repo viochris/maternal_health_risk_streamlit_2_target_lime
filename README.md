@@ -7,6 +7,7 @@
 ![NumPy](https://img.shields.io/badge/NumPy-Array%20Ops-013243?style=flat&logo=numpy&logoColor=white)
 ![AdaBoost](https://img.shields.io/badge/Model-AdaBoost-yellowgreen?style=flat)
 ![LIME](https://img.shields.io/badge/XAI-LIME-purple?style=flat)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat)
 
 ## 📌 Overview
 
@@ -168,6 +169,11 @@ streamlit run streamlit_app.py
 * **Restore 3-Class Granularity:** Offer an option to view the original `low risk` / `mid risk` / `high risk` split instead of only the collapsed binary label, for settings that need finer triage.
 * **Shared Preprocessing Step:** Cache the preprocessed features between `predict()` and `explain()` so a single submission doesn't run data preparation twice.
 * **Basic Access Controls:** Add lightweight authentication and request logging before considering any real clinical deployment beyond a portfolio demo.
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 **Author:** [Silvio Christian Joe](https://github.com/viochris)
